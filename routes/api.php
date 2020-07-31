@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/test/filled', 'TestFilledValidationController');
 Route::post('/test/nullable', 'TestNullableValidationController');
 Route::post('/test/required', 'TestRequiredValidationController');
+Route::post('/test/sometimes', 'TestSometimesValidationController');
