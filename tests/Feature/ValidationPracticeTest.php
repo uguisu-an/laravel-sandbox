@@ -26,6 +26,22 @@ class ValidationPracticeTest extends TestCase
         $response->assertJsonValidationErrors('filled');
     }
 
+    public function test_filledが与えられてない時()
+    {
+        $response = $this->postExample();
+
+        $response->assertOk();
+    }
+
+    public function test_filledがnullの時()
+    {
+        $response = $this->postExample([
+            'filled' => null,
+        ]);
+
+        $response->assertJsonValidationErrors('filled');
+    }
+
     public function postExample($params = [])
     {
         return $this->json('post', '/api/test', $params);
