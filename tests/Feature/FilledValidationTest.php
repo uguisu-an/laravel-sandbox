@@ -17,6 +17,13 @@ class FilledValidationTest extends TestCase
         $response->assertOk()->assertExactJson(['value']);
     }
 
+    public function test_filledが与えられてない時()
+    {
+        $response = $this->postExample();
+
+        $response->assertOk()->assertExactJson(['unset']);
+    }
+
     public function test_filledに空文字の時()
     {
         $response = $this->postExample([
@@ -24,13 +31,6 @@ class FilledValidationTest extends TestCase
         ]);
 
         $response->assertJsonValidationErrors('filled');
-    }
-
-    public function test_filledが与えられてない時()
-    {
-        $response = $this->postExample();
-
-        $response->assertOk()->assertExactJson(['unset']);
     }
 
     public function test_filledがnullの時()

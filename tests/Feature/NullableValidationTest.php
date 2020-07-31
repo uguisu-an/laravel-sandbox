@@ -17,6 +17,12 @@ class NullableValidationTest extends TestCase
         $response->assertOk()->assertExactJson(['value']);
     }
 
+    public function test_nullableが与えられてない時()
+    {
+        $response = $this->exec();
+
+        $response->assertOk()->assertExactJson(['unset']);
+    }
 
     public function test_nullableに空文字の時()
     {
@@ -25,13 +31,6 @@ class NullableValidationTest extends TestCase
         ]);
 
         $response->assertOk()->assertExactJson([null]);
-    }
-
-    public function test_nullableが与えられてない時()
-    {
-        $response = $this->exec();
-
-        $response->assertOk()->assertExactJson(['unset']);
     }
 
     public function test_nullableがnullの時()
