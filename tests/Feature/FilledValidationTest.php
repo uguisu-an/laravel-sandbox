@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class ValidationPracticeTest extends TestCase
+class FilledValidationTest extends TestCase
 {
     public function test_Success()
     {
@@ -44,6 +44,6 @@ class ValidationPracticeTest extends TestCase
 
     public function postExample($params = [])
     {
-        return $this->json('post', '/api/test', $params);
+        return $this->json('post', '/api/test/filled', $params);
     }
 }
