@@ -17,5 +17,7 @@ class TestSometimesValidationController extends Controller
         $request->validate([
             'value' => 'sometimes',
         ]);
+
+        return [$request->input('value', 'unset')];
     }
 }

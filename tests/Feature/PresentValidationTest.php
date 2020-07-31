@@ -14,7 +14,7 @@ class PresentValidationTest extends TestCase
             'value' => 'value',
         ]);
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson(['value']);
     }
 
     public function test_presentが与えられてない時()
@@ -30,7 +30,7 @@ class PresentValidationTest extends TestCase
             'value' => '',
         ]);
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson([null]);
     }
 
     public function test_presentがnullの時()
@@ -39,7 +39,7 @@ class PresentValidationTest extends TestCase
             'value' => null,
         ]);
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson([null]);
     }
 
     protected function exec($params = [])

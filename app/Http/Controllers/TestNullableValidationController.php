@@ -11,5 +11,7 @@ class TestNullableValidationController extends Controller
         $request->validate([
             'nullable' => 'nullable',
         ]);
+
+        return [$request->input('nullable', 'unset')];
     }
 }

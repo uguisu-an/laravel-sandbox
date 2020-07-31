@@ -11,12 +11,18 @@ class SometimesValidationTest extends TestCase
     public function test_Success()
     {
         $response = $this->exec([
-            'value' => 'sometimes',
+            'value' => 'value',
         ]);
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson(['value']);
     }
 
+    public function test_sometimesが与えられてない時()
+    {
+        $response = $this->exec();
+
+        $response->assertOk()->assertExactJson(['unset']);
+    }
 
     public function test_sometimesに空文字の時()
     {
@@ -24,14 +30,7 @@ class SometimesValidationTest extends TestCase
             'value' => '',
         ]);
 
-        $response->assertOk();
-    }
-
-    public function test_sometimesが与えられてない時()
-    {
-        $response = $this->exec();
-
-        $response->assertOk();
+        $response->assertOk()->assertExactJson([null]);
     }
 
     public function test_sometimesがnullの時()
@@ -40,7 +39,7 @@ class SometimesValidationTest extends TestCase
             'value' => null,
         ]);
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson([null]);
     }
 
     protected function exec($params = [])

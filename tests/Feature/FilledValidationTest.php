@@ -11,10 +11,10 @@ class FilledValidationTest extends TestCase
     public function test_Success()
     {
         $response = $this->postExample([
-            'filled' => 'filled',
+            'filled' => 'value',
         ]);
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson(['value']);
     }
 
     public function test_filledに空文字の時()
@@ -30,7 +30,7 @@ class FilledValidationTest extends TestCase
     {
         $response = $this->postExample();
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson(['unset']);
     }
 
     public function test_filledがnullの時()

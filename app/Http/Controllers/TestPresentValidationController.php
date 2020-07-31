@@ -17,5 +17,7 @@ class TestPresentValidationController extends Controller
         $request->validate([
             'value' => 'present',
         ]);
+
+        return [$request->input('value', 'unset')];
     }
 }

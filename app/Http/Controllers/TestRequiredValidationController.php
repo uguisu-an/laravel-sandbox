@@ -17,5 +17,7 @@ class TestRequiredValidationController extends Controller
         $request->validate([
             'value' => 'required',
         ]);
+        
+        return [$request->input('value', 'unset')];
     }
 }

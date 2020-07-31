@@ -11,5 +11,7 @@ class TestFilledValidationController extends Controller
         $request->validate([
             'filled' => 'filled',
         ]);
+
+        return [$request->input('filled', 'unset')];
     }
 }

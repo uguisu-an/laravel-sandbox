@@ -11,10 +11,10 @@ class NullableValidationTest extends TestCase
     public function test_Success()
     {
         $response = $this->exec([
-            'nullable' => 'nullable',
+            'nullable' => 'value',
         ]);
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson(['value']);
     }
 
 
@@ -24,14 +24,14 @@ class NullableValidationTest extends TestCase
             'nullable' => '',
         ]);
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson([null]);
     }
 
     public function test_nullableが与えられてない時()
     {
         $response = $this->exec();
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson(['unset']);
     }
 
     public function test_nullableがnullの時()
@@ -40,7 +40,7 @@ class NullableValidationTest extends TestCase
             'nullable' => null,
         ]);
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson([null]);
     }
 
     protected function exec($params = [])

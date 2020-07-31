@@ -6,7 +6,22 @@
         {
             "label": "test",
             "type": "shell",
-            "command": "php artisan test"
+            "command": "php artisan test",
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "pickup test",
+            "type": "shell",
+            "command": "php artisan test --group p",
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
         }
     ]
 }

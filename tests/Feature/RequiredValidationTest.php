@@ -14,22 +14,21 @@ class RequiredValidationTest extends TestCase
             'value' => 'value',
         ]);
 
-        $response->assertOk();
+        $response->assertOk()->assertExactJson(['value']);
     }
 
+    public function test_requiredが与えられてない時()
+    {
+        $response = $this->exec();
+
+        $response->assertJsonValidationErrors('value');
+    }
 
     public function test_requiredに空文字の時()
     {
         $response = $this->exec([
             'value' => '',
         ]);
-
-        $response->assertJsonValidationErrors('value');
-    }
-
-    public function test_requiredが与えられてない時()
-    {
-        $response = $this->exec();
 
         $response->assertJsonValidationErrors('value');
     }
