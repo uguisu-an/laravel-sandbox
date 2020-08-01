@@ -15,14 +15,22 @@ class UserAddProductTest extends TestCase
 {
     use RefreshDatabase;
 
-    // TODO UpdateSequenceNumberが更新される
-
     public function test_商品を追加する()
     {
         $this->addProduct();
 
         $this->assertDatabaseHas('products', [
             'name' => $this->product->name,
+            'update_count' => 1,
+        ]);
+    }
+
+    public function test_USNをインクリメントする()
+    {
+        $this->addProduct();
+
+        $this->assertDatabaseHas('update_sequence_numbers', [
+            'update_count' => 1,
         ]);
     }
 

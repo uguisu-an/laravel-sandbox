@@ -8,6 +8,6 @@ class Product extends Model
 {
     protected $fillable = [
         'name',
-        'update_sequence_number'
+        'update_count'
     ];
 }
