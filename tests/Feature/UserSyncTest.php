@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Product;
+use App\UpdateSequenceNumber;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -23,29 +24,48 @@ class UserSyncTest extends TestCase
 
     use RefreshDatabase;
 
-    public function test_成功するとOKが返ってくる()
-    {
-        $response = $this->sync();
-
-        $response->assertOk();
-    }
-
     public function test_成功すると商品が返ってくる()
     {
-
-        $product = factory(Product::class)->create();
-
         $response = $this->sync();
 
         $response->assertOk()->assertJson([
-            'products' => [
-                ['id' => $product->id, 'name' => $product->name]
-            ]
+            'products' => $this->products->toArray(),
         ]);
     }
 
-    protected function sync()
+    public function test_手元のデータが最新なら何も返ってこない()
     {
-        return $this->json('get', route('sync'));
+        $response = $this->sync([
+            'last_update_count' => 1,
+        ]);
+
+        $response->assertOk()->assertExactJson([
+            'products' => []
+        ]);
+    }
+
+    public function test_更新があればその分だけ返ってくる()
+    {
+        $product = factory(Product::class)->create(['update_count' => 2]);
+
+        $response = $this->sync([
+            'last_update_count' => 1,
+        ]);
+
+        $response->assertOk()->assertExactJson([
+            'products' => [$product->toArray()]
+        ]);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->products = factory(Product::class, 3)->create(['update_count' => 1]);
+    }
+
+    protected function sync($params = [])
+    {
+        return $this->json('get', route('sync', $params));
     }
 }

@@ -10,4 +10,8 @@ class Product extends Model
         'name',
         'update_count'
     ];
+
+    protected $casts = [
+        'update_count' => 'int',
+    ];
 }
