@@ -11,7 +11,6 @@ use Tests\TestCase;
 class UserSyncTest extends TestCase
 {
     // TODO フルシンクとインクリメンタルシンクでテストケース分けてもいいかも
-    // TODO productsが取れる
     // TODO product_backlogsが取れる
     // TODO full_sync_beforeが取れる
     // TODO update_countが取れる
@@ -52,7 +51,7 @@ class UserSyncTest extends TestCase
             'last_update_count' => 1,
         ]);
 
-        $response->assertOk()->assertExactJson([
+        $response->assertOk()->assertJson([
             'products' => [$product->toArray()]
         ]);
     }

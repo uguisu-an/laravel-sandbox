@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('update_count');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
