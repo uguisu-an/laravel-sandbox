@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -20,11 +21,27 @@ class UserSyncTest extends TestCase
     // TODO last_update_countとupdate_countが同じなら何も返さない
     // TODO last_update_countがupdate_countよりも小さければlast_update_countより後のデータだけを返す
 
+    use RefreshDatabase;
+
     public function test_成功するとOKが返ってくる()
     {
         $response = $this->sync();
 
         $response->assertOk();
+    }
+
+    public function test_成功すると商品が返ってくる()
+    {
+
+        $product = factory(Product::class)->create();
+
+        $response = $this->sync();
+
+        $response->assertOk()->assertJson([
+            'products' => [
+                ['id' => $product->id, 'name' => $product->name]
+            ]
+        ]);
     }
 
     protected function sync()
