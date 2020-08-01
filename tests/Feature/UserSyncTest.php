@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Product;
 use App\UpdateSequenceNumber;
+use App\Usecases\UserDeleteProductUsecase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -43,7 +44,7 @@ class UserSyncTest extends TestCase
         ]);
     }
 
-    public function test_更新があればその分だけ返ってくる()
+    public function test_更新された商品があればその分だけ返ってくる()
     {
         $product = factory(Product::class)->create(['update_count' => 2]);
 
@@ -52,7 +53,21 @@ class UserSyncTest extends TestCase
         ]);
 
         $response->assertOk()->assertJson([
-            'products' => [$product->toArray()]
+            'products' => [['id' => $product->id]]
+        ]);
+    }
+
+    public function test_削除された商品があればその分だけ返ってくる()
+    {
+        $product = factory(Product::class)->create();
+        (new UserDeleteProductUsecase())($product->id);
+
+        $response = $this->sync([
+            'last_update_count' => 1,
+        ]);
+
+        $response->assertOk()->assertJson([
+            'products' => [['id' => $product->id]]
         ]);
     }
 
@@ -60,6 +75,7 @@ class UserSyncTest extends TestCase
     {
         parent::setUp();
 
+        UpdateSequenceNumber::incrementUpdateCount();
         $this->products = factory(Product::class, 3)->create(['update_count' => 1]);
     }
 

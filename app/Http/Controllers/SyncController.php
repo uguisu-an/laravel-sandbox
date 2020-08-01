@@ -21,7 +21,7 @@ class SyncController extends Controller
         ]);
         $last_update_count = $request->input('last_update_count', 0);
         return [
-            'products' => Product::where('update_count', '>', $last_update_count)->get(),
+            'products' => Product::withTrashed()->where('update_count', '>', $last_update_count)->get(),
         ];
     }
 }
